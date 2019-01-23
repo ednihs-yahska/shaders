@@ -81,7 +81,7 @@ main( )
 	float n = nv.r + nv.g + nv.b + nv.a;    //  1. -> 3.
 	n = n - 2.; 
 	n*=uNoiseAmp;
-	vec4 TheColor;
+	vec3 TheColor;
 
 	float oldDist = sqrt( ds*ds + dt*dt );
 	float newDist = n;
@@ -94,30 +94,33 @@ main( )
 
 	float d = (ds*ds)+(dt*dt);
 
-	if(uNoiseAlpha == 0.0 && d < 1){
-		discard;
-	}
+	
 
     float sd = ((s-sc)/Ar)*((s-sc)/Ar);
     float td = ((t-tc)/Br)*((t-tc)/Br);
 
 
-    vec4 uEllipseColor = vec4(1.0, 0.0, 0.0, 1.0*uNoiseAlpha);
-    vec4 vColor = vec4(1.0, 1.0, 1.0, 1.0);
-    vec4 yellow = vec4(1.0, 1.0, 0.0, 1.0);
-
-	gl_FragColor = vColor;		// default color
+    vec3 uEllipseColor = vec3(1.0, 0.0, 0.0);
+    vec3 yellow = vec3(1.0, 1.0, 0.0);
 
     float tolerance = smoothstep( 1.-uTol, 1.+uTol, d );
 
 	if(uUseChromaDepth){
 		float t = (2./3.) * (Z - uChromaRed ) / ( uChromaBlue - uChromaRed );
 		t = clamp( t, 0., 2./3. );
-		//mix( uEllipseColor*ChromaDepth( t ), yellow, tolerance );
-		TheColor = mix(uEllipseColor, vec4(ChromaDepth( t ), 1.0), tolerance );
+		TheColor = mix(uEllipseColor, ChromaDepth( t ), tolerance );
 	}else{
 		TheColor = mix( uEllipseColor, yellow, tolerance );
 	}
-
-	gl_FragColor = TheColor*vLightIntensity;	// apply lighting model
+	if(d < 1){
+		
+		if(uNoiseAlpha==0.0){
+			discard;
+		}else {
+			gl_FragColor = vec4(TheColor*vLightIntensity, uNoiseAlpha);
+		}
+	}else{
+		gl_FragColor = vec4(TheColor*vLightIntensity, 1.0);	// apply lighting model
+	}
+	
 }
