@@ -1,0 +1,5 @@
+
+0(115) : error C7011: implicit cast from "vec4" to "vec3"
+0(115) : error C7011: implicit cast from "vec4" to "vec3"
+0(116) : error C0000: syntax error, unexpected identifier, expecting ',' or ';' at token "TheColor"
+

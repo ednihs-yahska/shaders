@@ -1,0 +1,21 @@
+##OpenGL GLIB
+Perspective 90
+LookAt 0 0 3  0 0 0  0 1 0
+
+
+Vertex   ellipses.vert
+Fragment ellipses.frag
+Program Ellipses	\
+		uAd <.001 .1 .5>	\
+		uBd <.001 .1 .5>	\
+		uTol <0. 0.005 2.>	\
+		uNoiseAmp <0. 1. 10.> \
+		uNoiseFreq <0. 1. 10.>	\
+		uNoiseAlpha <0. 1. 1.>	\
+		uUseChromaDepth <false> \
+		uChromaBlue <-5.  -3.8  0.> \
+		uChromaRed  <-3.  -1.1  2.> 
+
+
+Color 1  .9  0
+Sphere 1. 60 60
